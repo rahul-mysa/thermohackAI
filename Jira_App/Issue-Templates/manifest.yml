@@ -1,0 +1,16 @@
+modules:
+  jira:issuePanel:
+    - key: hello-world-app-hello-world-panel
+      function: main
+      title: Forge app for ThermoAIHack
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+  function:
+    - key: main
+      handler: index.run
+app:
+  id: ari:cloud:ecosystem::app/4b5e261c-0430-4953-85df-f5224883fac7
+
+permissions:
+  scopes:
+    - 'write:jira-work'
+
