@@ -1,12 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="https://unpkg.com/@atlaskit/css-reset@2.0.0/dist/bundle.css" media="all">
-        <script src="https://connect-cdn.atl-paas.net/all.js" async></script>
-    </head>
-    <body>
-        <section id="content" class="ac-content">
-            <h1>Hello World</h1>
-        </section>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>JIRA Templates</title>
+    <style>
+        /* Add a background image to the body element */
+        body {
+            background-image: url(); /* Replace 'your-image-url.jpg' with the URL of your image */
+            background-size: 50% auto;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <h1>JIRA Templates</h1>
+    <p>Select an option:</p>
+    <select id="dropdown">
+        <option value="Bug Description">Bug Description</option>
+        <option value="Bug Retest">Bug Retest</option>
+    </select>
+
+    <div id="bugDescriptionForm" style="display: none;">
+        <form id="bugDescriptionFormFields">
+            <textarea id="bugDescription" name="bugDescription" rows="6" cols="50">
+            Description:
+            
+            Expected:
+            
+            Steps to replicate:
+            1.
+            2.
+            </textarea>
+            <br><br>
+            <label for="platforms">Environment:</label><br>
+            <input type="checkbox" id="android13" name="platforms" value="Android 13"> Android 13
+            <input type="checkbox" id="android11" name="platforms" value="Android 11"> Android 11
+            <input type="checkbox" id="ios17" name="platforms" value="iOS 17"> iOS 17
+            <input type="checkbox" id="ios16" name="platforms" value="iOS 16"> iOS 16
+        </form>
+    </div>
+
+    <div id="retestForm" style="display: none;">
+        <form id="retestFormFields">
+            <br><br>
+            <label for="status">Status:</label><br>
+            <input type="radio" id="pass" name="status" value="Pass"> Pass
+            <input type="radio" id="fail" name="status" value="Fail"> Fail
+            <br><br>
+            <label for="appVersion">App Version:</label>
+            <select id="appVersion" name="appVersion">
+                <option value="3.51">3.51</option>
+                <option value="3.50">3.50</option>
+                <option value="3.49">3.49</option>
+            </select>
+            <br><br>
+            <label for="cloudVersion">Cloud Version:</label>
+            <select id="cloudVersion" name="cloudVersion">
+                <option value="Production">Production</option>
+                <option value="Development">Development</option>
+            </select>
+            <br><br>
+            <label for="platforms">Environment:</label><br>
+            <input type="checkbox" id="android13" name="platforms" value="Android 13"> Android 13
+            <input type="checkbox" id="android11" name="platforms" value="Android 11"> Android 11
+            <input type="checkbox" id="ios17" name="platforms" value="iOS 17"> iOS 17
+            <input type="checkbox" id="ios16" name="platforms" value="iOS 16"> iOS 16
+        </form>
+    </div>
+    <br><br>
+    <button id="submit" style="display: none;">Submit</button>
+
+    <p id="summary" style="display: none;"></p>
+
+    <script>
+        // Get references to the dropdown, bugDescriptionForm, retestForm, submit button, and summary elements
+        const dropdown = document.getElementById('dropdown');
+        const bugDescriptionForm = document.getElementById('bugDescriptionForm');
+        const retestForm = document.getElementById('retestForm');
+        const submitButton = document.getElementById('submit');
+        const summary = document.getElementById('summary');
+
+        // Function to reset the page content
+        function resetPageContent() {
+            bugDescriptionForm.style.display = 'none';
+            retestForm.style.display = 'none';
+            submitButton.style.display = 'none';
+            summary.style.display = 'none';
+        }
+
+        // Add an event listener to the dropdown to clear and reset the page content
+        dropdown.addEventListener('change', function() {
+            resetPageContent(); // Reset the page content
+
+            const selectedValue = dropdown.value;
+
+            if (selectedValue === 'Bug Description') {
+                bugDescriptionForm.style.display = 'block';
+            } else if (selectedValue === 'Bug Retest') {
+                retestForm.style.display = 'block';
+                submitButton.style.display = 'block';
+            }
+        });
+
+        // Add an event listener to the "Submit" button for the "Bug Retest" form
+        submitButton.addEventListener('click', function() {
+            const formFields = document.getElementById('retestFormFields');
+            const status = formFields.querySelector('input[name="status"]:checked').value;
+            const platforms = Array.from(formFields.querySelectorAll('input[name="platforms"]:checked'))
+                .map(checkbox => checkbox.value)
+                .join(', ');
+
+            let summaryText = '';
+
+            if (status === 'Pass') {
+                summaryText = `Bug was retested using ${platforms} and it was a ${status}. This bug will now be closed`;
+            } else if (status === 'Fail') {
+                summaryText = `Bug was retested using ${platforms} and it was a ${status}. This bug will now be reopened`;
+            }
+
+            // Display the summary
+            summary.style.display = 'block';
+            summary.textContent = summaryText;
+        });
+    </script>
+</body>
 </html>
