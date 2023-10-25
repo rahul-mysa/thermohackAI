@@ -2,7 +2,7 @@ modules:
   jira:issuePanel:
     - key: hello-world-app-hello-world-panel
       function: main
-      title: Forge app for ThermoAIHack
+      title: Templates App
       icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
 
   function:
